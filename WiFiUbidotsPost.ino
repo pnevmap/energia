@@ -14,7 +14,21 @@ WiFiClient client;
 void setup() {
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
-  Serial.print("Attempting to connect to Network named: ");
+  connectToWiFi();
+  printWifiStatus();
+}
+
+void loop() {
+  delay(2000);
+  digitalWrite(GREEN_LED, HIGH);
+  postData(generateData());
+  readResponse();
+  delay(10000);
+  digitalWrite(GREEN_LED, LOW);
+}
+
+void connectToWiFi(){
+    Serial.print("Attempting to connect to Network named: ");
   Serial.println(ssid); 
   WiFi.begin(ssid, password);
   while ( WiFi.status() != WL_CONNECTED) {
@@ -29,18 +43,8 @@ void setup() {
     Serial.print(".");
     delay(300);
   }
-
+  
   Serial.println("\nIP Address obtained");
-  printWifiStatus();
-}
-
-void loop() {
-  delay(2000);
-  digitalWrite(GREEN_LED, HIGH);
-  postData(generateData());
-  readResponse();
-  delay(10000);
-  digitalWrite(GREEN_LED, LOW);
 }
 
 void readResponse(){
